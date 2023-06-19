@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:math';
+import 'house.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
@@ -7,36 +8,12 @@ import 'package:http/http.dart' as http;
 // TODO: List
 // TODO: Nicer font
 
-// TODO: Move to own file
-class House {
-  final String name;
-  final String region;
-  final String coatOfArms;
-  final String words;
-
-  const House({
-    required this.name,
-    required this.region,
-    required this.coatOfArms,
-    required this.words,
-  });
-
-  factory House.fromJson(Map<String, dynamic> json) {
-    return House(
-      name: json['name'],
-      region: json['region'],
-      coatOfArms: json['coatOfArms'],
-      words: json['words'],
-    );
-  }
-}
-
 void main() {
-  runApp(const MyApp());
+  runApp(const GOTApp());
 }
 
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+class GOTApp extends StatelessWidget {
+  const GOTApp({super.key});
 
   @override
   Widget build(BuildContext context) {
