@@ -7,11 +7,13 @@ class House {
   final String name;
   final String region;
   final String coatOfArms;
+  final String words;
 
   const House({
     required this.name,
     required this.region,
     required this.coatOfArms,
+    required this.words,
   });
 
   factory House.fromJson(Map<String, dynamic> json) {
@@ -19,6 +21,7 @@ class House {
       name: json['name'],
       region: json['region'],
       coatOfArms: json['coatOfArms'],
+      words: json['words'],
     );
   }
 }
@@ -101,6 +104,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   ),
                   Text(snapshot.data!.region),
                   Text("🛡️ ${snapshot.data!.coatOfArms.toString()}"),
+                  Text("🪶 ${snapshot.data!.words.toString()}"),
                 ],
               );
             } else if (snapshot.hasError) {
