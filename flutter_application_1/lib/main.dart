@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'dart:math';
 
 class Album {
   final int userId;
@@ -62,13 +63,15 @@ class _MyHomePageState extends State<MyHomePage> {
 
   void _incrementCounter() {
     setState(() {
-      //_counter++;
+      futureAlbum = fetchAlbum();
     });
   }
 
   Future<Album> fetchAlbum() async {
+    var randomNumber = Random().nextInt(100);
+
     final response = await http
-        .get(Uri.parse('https://jsonplaceholder.typicode.com/albums/1'));
+        .get(Uri.parse('https://jsonplaceholder.typicode.com/albums/$randomNumber'));
 
     if (response.statusCode == 200) {
       return Album.fromJson(jsonDecode(response.body));
