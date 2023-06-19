@@ -92,7 +92,13 @@ class _MyHomePageState extends State<MyHomePage> {
           future: futureAlbum,
           builder: (context, snapshot) {
             if (snapshot.hasData) {
-              return Text(snapshot.data!.title);
+              return Column(
+                children: [
+                  Text(snapshot.data!.title),
+                  Text(snapshot.data!.id.toString()),
+                  Text(snapshot.data!.userId.toString()),
+                ],
+              );
             } else if (snapshot.hasError) {
               return Text('${snapshot.error}');
             }
@@ -104,8 +110,8 @@ class _MyHomePageState extends State<MyHomePage> {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: const Icon(Icons.mail),
+        tooltip: 'Refresh',
+        child: const Icon(Icons.refresh),
       ),
     );
   }
