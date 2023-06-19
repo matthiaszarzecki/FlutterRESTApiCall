@@ -1,7 +1,11 @@
 import 'dart:convert';
+import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-import 'dart:math';
+
+// TODO: Nicer header
+// TODO: List
+// TODO: Nicer font
 
 // TODO: Move to own file
 class House {
