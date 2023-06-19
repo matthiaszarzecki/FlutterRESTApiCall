@@ -3,22 +3,22 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:math';
 
-class Album {
-  final int userId;
-  final int id;
-  final String title;
+class House {
+  final String name;
+  final String region;
+  final String coatOfArms;
 
-  const Album({
-    required this.userId,
-    required this.id,
-    required this.title,
+  const House({
+    required this.name,
+    required this.region,
+    required this.coatOfArms,
   });
 
-  factory Album.fromJson(Map<String, dynamic> json) {
-    return Album(
-      userId: json['userId'],
-      id: json['id'],
-      title: json['title'],
+  factory House.fromJson(Map<String, dynamic> json) {
+    return House(
+      name: json['name'],
+      region: json['region'],
+      coatOfArms: json['coatOfArms'],
     );
   }
 }
@@ -33,12 +33,12 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
+      title: 'Houses of Westeros',
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.red),
         useMaterial3: true,
       ),
-      home: const MyHomePage(title: 'Flutter Demo Home Page'),
+      home: const MyHomePage(title: 'Houses of Westeros'),
     );
   }
 }
@@ -53,7 +53,7 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  late Future<Album> futureAlbum;
+  late Future<House> futureAlbum;
 
   @override
   void initState() {
@@ -67,14 +67,15 @@ class _MyHomePageState extends State<MyHomePage> {
     });
   }
 
-  Future<Album> fetchAlbum() async {
-    var randomNumber = Random().nextInt(100);
+  Future<House> fetchAlbum() async {
+    var numberOfHouses = 444;
+    var randomNumber = Random().nextInt(numberOfHouses);
 
-    final response = await http
-        .get(Uri.parse('https://jsonplaceholder.typicode.com/albums/$randomNumber'));
+    final response = await http.get(
+        Uri.parse('https://anapioficeandfire.com/api/houses/$randomNumber'));
 
     if (response.statusCode == 200) {
-      return Album.fromJson(jsonDecode(response.body));
+      return House.fromJson(jsonDecode(response.body));
     } else {
       throw Exception('Failed to load album');
     }
@@ -84,19 +85,22 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
+        backgroundColor: Theme.of(context).colorScheme.primary,
         title: Text(widget.title),
       ),
       body: Center(
-        child: FutureBuilder<Album>(
+        child: FutureBuilder<House>(
           future: futureAlbum,
           builder: (context, snapshot) {
             if (snapshot.hasData) {
               return Column(
                 children: [
-                  Text(snapshot.data!.title),
-                  Text(snapshot.data!.id.toString()),
-                  Text(snapshot.data!.userId.toString()),
+                  Text(
+                    snapshot.data!.name,
+                    style: Theme.of(context).textTheme.headlineSmall,
+                  ),
+                  Text(snapshot.data!.region),
+                  Text("🛡️ ${snapshot.data!.coatOfArms.toString()}"),
                 ],
               );
             } else if (snapshot.hasError) {
@@ -111,6 +115,8 @@ class _MyHomePageState extends State<MyHomePage> {
       floatingActionButton: FloatingActionButton(
         onPressed: _incrementCounter,
         tooltip: 'Refresh',
+        backgroundColor: Theme.of(context).colorScheme.primary,
+        foregroundColor: Theme.of(context).colorScheme.inversePrimary,
         child: const Icon(Icons.refresh),
       ),
     );
