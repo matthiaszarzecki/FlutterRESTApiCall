@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:math';
 
+// TODO: Move to own file
 class House {
   final String name;
   final String region;
@@ -87,6 +88,7 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      // TODO: Extract app bar
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.primary,
         title: Text(widget.title),
@@ -96,6 +98,7 @@ class _MyHomePageState extends State<MyHomePage> {
           future: futureAlbum,
           builder: (context, snapshot) {
             if (snapshot.hasData) {
+              // TODO: Extract elements into function, only return elements when string exists.
               return Column(
                 children: [
                   Text(
@@ -116,6 +119,7 @@ class _MyHomePageState extends State<MyHomePage> {
           },
         ),
       ),
+      // TODO: Extract button to variable, function
       floatingActionButton: FloatingActionButton(
         onPressed: _incrementCounter,
         tooltip: 'Refresh',
