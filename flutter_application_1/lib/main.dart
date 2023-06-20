@@ -9,20 +9,22 @@ import 'package:http/http.dart' as http;
 // TODO: Nicer font
 
 void main() {
-  runApp(const GOTApp());
+  runApp(GOTApp());
 }
 
 class GOTApp extends StatelessWidget {
-  const GOTApp({super.key});
+  GOTApp({super.key});
+
+  final themeData = ThemeData(
+    colorScheme: ColorScheme.fromSeed(seedColor: Colors.red),
+    useMaterial3: true,
+  );
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Houses of Westeros',
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.red),
-        useMaterial3: true,
-      ),
+      theme: themeData,
       home: const MyHomePage(title: 'Houses of Westeros'),
     );
   }
@@ -53,8 +55,8 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   Future<House> fetchAlbum() async {
-    var numberOfHouses = 444;
-    var randomNumber = Random().nextInt(numberOfHouses);
+    const numberOfHouses = 444;
+    final randomNumber = Random().nextInt(numberOfHouses);
 
     final response = await http.get(
         Uri.parse('https://anapioficeandfire.com/api/houses/$randomNumber'));
@@ -62,7 +64,7 @@ class _MyHomePageState extends State<MyHomePage> {
     if (response.statusCode == 200) {
       return House.fromJson(jsonDecode(response.body));
     } else {
-      throw Exception('Failed to load album');
+      throw Exception('Failed to load data');
     }
   }
 
@@ -79,16 +81,17 @@ class _MyHomePageState extends State<MyHomePage> {
           future: futureAlbum,
           builder: (context, snapshot) {
             if (snapshot.hasData) {
+              final house = snapshot.data!;
               // TODO: Extract elements into function, only return elements when string exists.
               return Column(
                 children: [
                   Text(
-                    snapshot.data!.name,
+                    house.name,
                     style: Theme.of(context).textTheme.headlineSmall,
                   ),
-                  Text(snapshot.data!.region),
-                  Text("🛡️ ${snapshot.data!.coatOfArms.toString()}"),
-                  Text("🪶 ${snapshot.data!.words.toString()}"),
+                  Text(house.region),
+                  Text("🛡️ ${house.coatOfArms.toString()}"),
+                  Text("🪶 ${house.words.toString()}"),
                 ],
               );
             } else if (snapshot.hasError) {
